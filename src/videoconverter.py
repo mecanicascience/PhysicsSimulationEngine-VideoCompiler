@@ -69,7 +69,8 @@ def convertStringToPNG(dataArray):
 def createVideoFromImageSet(FPS):
     print("\n\n===== Generating video from the set of images (3/3) =====\n...")
 
-    os.system('ffmpeg -y -framerate {0} -i raw/image_%06d.png datas/output.mp4 -vf format=yuv420p'.format(FPS))
+    # FFMPEG
+    os.system('ffmpeg -r {0} -i raw/image_%06d.png -vcodec libx264 -y -an datas/output.mp4 -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2"'.format(FPS))
 
     # Delete files in raw
     files = glob.glob('raw/*')

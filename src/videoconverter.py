@@ -21,7 +21,11 @@ def setup(fileName):
     convertStringToPNG(jsonDatas['datas']['pixels']['pixelDatas'])
 
     # Create video from the set of every created images
-    createVideoFromImageSet(jsonDatas['config']['drawFrameCount'])
+    createVideoFromImageSet(
+        jsonDatas['config']['drawFrameCount'],
+        jsonDatas['config']['width'],
+        jsonDatas['config']['height']
+    )
 
     print(
           "\n\nEnd of program."
@@ -66,11 +70,11 @@ def convertStringToPNG(dataArray):
 
 
 
-def createVideoFromImageSet(FPS):
+def createVideoFromImageSet(FPS, width, height):
     print("\n\n===== Generating video from the set of images (3/3) =====\n...")
 
     # FFMPEG
-    os.system('ffmpeg -r {0} -i raw/image_%06d.png -vcodec libx264 -y -an datas/output.mp4 -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2"'.format(FPS))
+    os.system('ffmpeg -r {0} -s {1}x{2} -i raw/image_%06d.png -vcodec libx264 -y -an datas/output.mp4 -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2"'.format(FPS, width, height))
 
     # Delete files in raw
     files = glob.glob('raw/*')

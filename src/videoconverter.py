@@ -1,6 +1,7 @@
 import json
 import sys
 import os
+import glob
 
 from binascii import a2b_base64
 
@@ -68,7 +69,12 @@ def convertStringToPNG(dataArray):
 def createVideoFromImageSet(FPS):
     print("\n\n===== Generating video from the set of images (3/3) =====\n...")
 
-    os.system('ffmpeg -framerate {0} -i raw/image_%06d.png datas/output.mp4'.format(FPS))
+    os.system('ffmpeg -y -framerate {0} -i raw/image_%06d.png datas/output.mp4 -vf format=yuv420p'.format(FPS))
+
+    # Delete files in raw
+    files = glob.glob('raw/*')
+    for f in files:
+        os.remove(f)
 
     print("===== END Generating video from the set of images (3/3) =====")
 

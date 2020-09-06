@@ -1,3 +1,4 @@
 *.DS_STORE
-datas/*
-raw/*
+datas/*.json
+datas/*.mp4
+raw/*.png
